@@ -3,23 +3,24 @@ import { IUserRepository } from "../../repository/user.repository";
 import { IUserService } from "../user.service";
 import User from "../../models/user.model";
 import bcrypt from "bcryptjs";
+import UserRepository from "../../repository/impl/user.repository.impl";
 
 class UserServiceImpl implements IUserService{
 
-    private userRepository: IUserRepository;
-    constructor(userRepository: IUserRepository) {
-        this.userRepository = userRepository;
-    }
+    private userRepository = UserRepository;
+
+    /**
+     * Creates a new user.
+     * @param {UserCreationAttributes} user - The user attributes to be created.
+     * @returns {Promise<User>} Returns the created user.
+     * @throws {Error} If the email is already in use or if the role or password is invalid.
+    */
     async createUser(user: UserCreationAttributes): Promise<User> {
-        
         // Check if the email is already in use
         const existingUser = await this.userRepository.findByEmailUser(user.email);
         if (existingUser) {
             throw new Error("Email already in use");
         }
-
-        // Make sure the password is at least 6 characters long, including numbers and letters
-        validatePassword(user.password);
 
         // Make sure the role is valid
         if (user.role !== "ADMIN" && user.role !== "CLIENT") {
@@ -32,9 +33,21 @@ class UserServiceImpl implements IUserService{
 
         return await this.userRepository.createUser(user);
     }
+
+    /**
+     * Retrieves all users.
+     * @returns {Promise<User[]>} Returns a list of users.
+    */
     async findAllUsers(): Promise<User[]> {
         return await this.userRepository.findAllUsers();
     }
+
+    /**
+     * Finds a user by their ID.
+     * @param {number} id - The ID of the user to be retrieved.
+     * @returns {Promise<User | null>} Returns the found user or null if the user does not exist.
+     * @throws {Error} If the user is not found.
+    */
     async findUserById(id: number): Promise<User | null> {
         const user = await this.userRepository.findByIdUser(id);
 
@@ -44,6 +57,14 @@ class UserServiceImpl implements IUserService{
         }
         return user;
     }
+
+    /**
+     * Updates an existing user.
+     * @param {number} id - The ID of the user to be updated.
+     * @param {Partial<UserAttributes>} user - The user attributes to be updated.
+     * @returns {Promise<User | null>} Returns the updated user or null if the update fails.
+     * @throws {Error} If the email is already in use, the role is changed, or the password is invalid.
+    */
     async updateUser(id: number, user: Partial<UserAttributes>): Promise<User | null> {
         const existingUser = await this.findUserById(id);
 
@@ -62,7 +83,6 @@ class UserServiceImpl implements IUserService{
 
         // Verificar se a senha foi alterada e criptografar
         if (user.password) {
-            validatePassword(user.password);
             user.password = await bcrypt.hash(user.password, 10);
         }
 
@@ -71,10 +91,15 @@ class UserServiceImpl implements IUserService{
         if (!updatedUser) {
             throw new Error("Error updating user");
         }
-
         return updatedUser;
     }
 
+    /**
+     * Deletes a user by their ID.
+     * @param {number} id - The ID of the user to be deleted.
+     * @returns {Promise<void>} Returns void if the deletion is successful.
+     * @throws {Error} If the user is not found or if the user is an ADMIN.
+    */
     async deleteUser(id: number): Promise<void> {
         const userDelete = await this.findUserById(id);
         
@@ -92,10 +117,4 @@ class UserServiceImpl implements IUserService{
     }
 }
 
-const validatePassword =(password: string): void => {
-    if (password.length < 6 || !/\d/.test(password) || !/[a-zA-Z]/.test(password)) {
-        throw new Error("Password must be at least 6 characters long, including letters and numbers");
-    }
-}
-
-export default UserServiceImpl;
+export default new UserServiceImpl();
