@@ -41,3 +41,5 @@ User.init({
     tableName: 'Users',
     timestamps: false
 });
+
+export default User
