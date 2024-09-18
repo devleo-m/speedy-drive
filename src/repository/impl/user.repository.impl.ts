@@ -57,6 +57,17 @@ class UserRepository implements IUserRepository {
         }    
     }
 
+    async findByEmailUser(email: string): Promise<User | null> {
+        try {
+            const user = await User.findOne({ where: { email } });
+            console.log(user?.toJSON());
+            return user;
+        } catch (error) {
+            console.error(`Error finding user by email: ${error}`);
+            throw new Error('Failed to retrieve user');
+        }
+    }
+
     /**
     * Updates an existing user.
     * @param id - The ID of the user to be updated.
