@@ -1,11 +1,10 @@
-import User from "../models/user.model";
 import { UserAttributes, UserCreationAttributes } from "../interface/user.interface";
+import User from "../models/user.model";
 
-export interface IUserRepository {
+export interface IUserService {
     createUser(user: UserCreationAttributes): Promise<User>;
     findAllUsers(): Promise<User[]>;
-    findByIdUser(id: number): Promise<User | null>;
-    findByEmailUser(email: string): Promise<User | null>;
+    findUserById(id: number): Promise<User | null>;
     updateUser(id: number, user: Partial<UserAttributes>): Promise<User | null>;
     deleteUser(id: number): Promise<void>;
 }
