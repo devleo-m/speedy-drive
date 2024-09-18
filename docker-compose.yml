@@ -1,0 +1,17 @@
+services:
+  postgres_dev:
+    image: postgres:14-alpine
+    container_name: speedy-drive-container
+    restart: always
+    environment:
+      - POSTGRES_USER=${DB_USER}
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
+      - POSTGRES_DB=${DB_NAME}
+    ports:
+      - "${DB_PORT}:5432"
+    networks:
+      - speedy-drive-network
+
+networks:
+  speedy-drive-network:
+    driver: bridge
