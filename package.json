@@ -6,13 +6,19 @@
     "build": "tsc",
     "dev": "nodemon --exec ts-node src/web/server.ts",
     "start": "node dist/web/server.js",
-    "test": "jest"
+    "test": "jest",
+    "db:up": "docker-compose up -d",
+    "db:create": "sequelize db:create",
+    "db:migrate": "sequelize-cli db:migrate",
+    "db:delete": "sequelize db:migrate:undo:all",
+    "db:seed": "sequelize db:seed:all"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "description": "",
   "dependencies": {
+    "bcryptjs": "^2.4.3",
     "dotenv": "^16.4.5",
     "express": "^4.21.0",
     "pg": "^8.13.0",
