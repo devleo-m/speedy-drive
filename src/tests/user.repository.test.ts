@@ -17,7 +17,7 @@ const User = db.define("User", {
 });
 
 // Cria uma instância do repositório
-const userRepository = new UserRepository();
+const userRepository = UserRepository;
 (userRepository as any).User = User;
 
 beforeEach(async () => {

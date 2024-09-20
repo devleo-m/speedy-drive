@@ -27,6 +27,8 @@ class UserServiceImpl implements IUserService{
             throw new Error("Role inválida");
         }
 
+        user.role = "CLIENT";
+
         // Using bcrypt to Encrypt password before saving
         const hashedPassword = await bcrypt.hash(user.password, 10);
         user.password = hashedPassword;
