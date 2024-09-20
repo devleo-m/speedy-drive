@@ -2,7 +2,7 @@ import Car from "../../models/car.model";
 import { CarCreationAttributes, CarAttributes } from "../../interface/car.interface";
 import { ICarRepository } from "../car.repository";
 
-class UserRepositoy implements ICarRepository {
+class CarRepositoy implements ICarRepository {
     async createCar(car: CarCreationAttributes): Promise<Car> {
         try {
             return await Car.create(car);
@@ -39,7 +39,7 @@ class UserRepositoy implements ICarRepository {
             throw new Error(`Failed to update car: ${error}`);
         }
     }
-    
+
     async deleteCar(id: number): Promise<void> {
         try {
             const existingCar = await this.findByIdCar(id);
@@ -54,4 +54,4 @@ class UserRepositoy implements ICarRepository {
     }
 }
 
-export default new UserRepositoy();
+export default new CarRepositoy();
