@@ -1,5 +1,6 @@
 import express from 'express';
 import userRouter from '../routes/user.router';
+import carRouter from '../routes/car.router';
 
 import swaggerUi from 'swagger-ui-express';
 import swaggerDocument from '../swagger/swagger.json';
@@ -13,5 +14,6 @@ app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 //Routes
 app.use("/", userRouter)
+app.use("/", carRouter)
 
 export default app;

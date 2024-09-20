@@ -1,13 +1,14 @@
 import { Request, Response } from "express";
 import userService from "../service/impl/user.service.impl";
-import { createUserSchema, findUserIdShema } from "../schemas/user.schema";
+import { userSchema, userUpdateSchema } from "../schemas/user.schema";
+import { IdSchema } from "../schemas/id.schema";
 import { ZodError } from "zod";
 
 export namespace UserController {
 
    export const createUser = async (req: Request, res: Response):Promise<Response> => {
        try {
-            const user = createUserSchema.parse(req.body);
+            const user = userSchema.parse(req.body);
             const createUser = await userService.createUser(user);
             return res.status(201).json(createUser);
        } catch (error) {
@@ -29,7 +30,7 @@ export namespace UserController {
 
    export const findUserById = async (req: Request, res: Response):Promise<Response> => {
        try {
-            const idParam = findUserIdShema.parse(req.params);
+            const idParam = IdSchema.parse(req.params);
             const user = await userService.findUserById(idParam.id);
             return res.status(200).json(user);
        } catch (error) {
@@ -42,8 +43,8 @@ export namespace UserController {
 
    export const updateUser = async (req: Request, res: Response):Promise<Response> => {
         try {
-            const idParam = findUserIdShema.parse(req.params);
-            const user = createUserSchema.parse(req.body);
+            const idParam = IdSchema.parse(req.params);
+            const user = userUpdateSchema.parse(req.body);
             const updateUser = await userService.updateUser(idParam.id, user);
             return res.status(200).json(updateUser);
         } catch (error) {
@@ -56,7 +57,7 @@ export namespace UserController {
 
    export const deleteUser = async (req: Request, res: Response):Promise<Response> => {
         try {
-            const idParam = findUserIdShema.parse(req.params);
+            const idParam = IdSchema.parse(req.params);
             const deleteUser = await userService.deleteUser(idParam.id);
             return res.status(200).json({ message: `User deleted successfully`, user: deleteUser });
         } catch (error) {

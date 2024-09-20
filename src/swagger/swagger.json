@@ -155,6 +155,146 @@
           }
         }
       }
+    },
+    "/cars": {
+      "get": {
+        "tags": ["Car"],
+        "summary": "Retrieve all cars",
+        "description": "Returns a list of all cars.",
+        "responses": {
+          "200": {
+            "description": "A list of cars.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Car"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": ["Car"],
+        "summary": "Create a new car",
+        "description": "Creates a new car and returns it.",
+        "requestBody": {
+          "description": "Car object to be created",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateCar"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Car created successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Car"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/cars/{id}": {
+      "get": {
+        "tags": ["Car"],
+        "summary": "Retrieve a car by ID",
+        "description": "Returns a car by their ID.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "Car ID",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A car object.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Car"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": ["Car"],
+        "summary": "Update a car by ID",
+        "description": "Updates a car's information by their ID.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "Car ID",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Updated car object",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateCar"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Car updated successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Car"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": ["Car"],
+        "summary": "Delete a car by ID",
+        "description": "Deletes a car by their ID.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "Car ID",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Car deleted successfully."
+          }
+        }
+      }
     }
   },
   "components": {
@@ -193,6 +333,106 @@
           }
         },
         "required": ["email", "password"]
+      },
+      "Car": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "example": "1"
+          },
+          "model": {
+            "type": "string",
+            "example": "string"
+          },
+          "brand": {
+            "type": "string",
+            "example": "string"
+          },
+          "color": {
+            "type": "string",
+            "example": "string"
+          },
+          "year": {
+            "type": "integer",
+            "example": "number"
+          },
+          "plate": {
+            "type": "string",
+            "example": "string"
+          },
+          "dailyRate": {
+            "type": "number",
+            "example": "number"
+          },
+          "status": {
+            "type": "string",
+            "example": "string"
+          }
+        }
+      },
+      "CreateCar": {
+        "type": "object",
+        "properties": {
+          "model": {
+            "type": "string",
+            "example": "Mustang"
+          },
+          "brand": {
+            "type": "string",
+            "example": "Ford"
+          },
+          "color": {
+            "type": "string",
+            "example": "Red"
+          },
+          "year": {
+            "type": "integer",
+            "example": "2022"
+          },
+          "plate": {
+            "type": "string",
+            "example": "ZKD-1234"
+          },
+          "dailyRate": {
+            "type": "number",
+            "example": "250.00"
+          },
+          "required": ["model", "brand", "color", "year", "plate", "dailyRate"]
+        }
+      },
+      "UpdateCar": {
+        "type": "object",
+        "properties": {
+          "model": {
+            "type": "string",
+            "example": "Mustang"
+          },
+          "brand": {
+            "type": "string",
+            "example": "Ford"
+          },
+          "color": {
+            "type": "string",
+            "example": "Red"
+          },
+          "year": {
+            "type": "integer",
+            "example": "2022"
+          },
+          "plate": {
+            "type": "string",
+            "example": "ZKD-1234"
+          },
+          "dailyRate": {
+            "type": "number",
+            "example": "290.00"
+          },
+          "status": {
+            "type": "string",
+            "example": "UNAVAILABLE"
+          }
+        }
       }
     }
   }
