@@ -30,11 +30,10 @@ class CarRepositoy implements ICarRepository {
     async updateCar(id: number, car: Partial<CarAttributes>): Promise<Car | null> {
         try {
             const existingCar = await this.findByIdCar(id);
-            if (existingCar) {
-                return await existingCar.update(car);
-            } else {
-                return null;
+            if (!existingCar) {
+                throw new Error(`Car with id:${id} not found`)
             }
+            return await existingCar.update(car);
         } catch (error) {
             throw new Error(`Failed to update car: ${error}`);
         }
@@ -43,11 +42,10 @@ class CarRepositoy implements ICarRepository {
     async deleteCar(id: number): Promise<void> {
         try {
             const existingCar = await this.findByIdCar(id);
-            if (existingCar) {
-                return existingCar.destroy();
-            } else {
+            if (!existingCar) {
                 throw new Error(`Car with id:${id} not found`);
             }
+            await existingCar.destroy();
         } catch (error) {
             throw new Error(`Failed to delete car: ${error}`);
         }
