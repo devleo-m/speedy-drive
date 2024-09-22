@@ -9,4 +9,4 @@ export interface RentalAttributes {
     carId: number;
 }
 
-export interface RentalCreationAttributes extends Optional<RentalAttributes, 'id'> {}
+export interface RentalCreationAttributes extends Optional<RentalAttributes, 'id' | "price"> {}
