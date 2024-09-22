@@ -295,6 +295,146 @@
           }
         }
       }
+    },
+    "/rentals": {
+      "get": {
+        "tags": ["Rental"],
+        "summary": "Retrieve all rentals",
+        "description": "Returns a list of all rentals.",
+        "responses": {
+          "200": {
+            "description": "A list of rentals.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Rental"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": ["Rental"],
+        "summary": "Create a new rental",
+        "description": "Creates a new rental and returns it.",
+        "requestBody": {
+          "description": "Rental object to be created",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateRental"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Rental created successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Rental"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/rentals/{id}": {
+      "get": {
+        "tags": ["Rental"],
+        "summary": "Retrieve a rental by ID",
+        "description": "Returns a rental by their ID.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "Rental ID",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A rental object.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Rental"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": ["Rental"],
+        "summary": "Update a rental by ID",
+        "description": "Updates a rental's information by their ID.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "Rental ID",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Updated rental object",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateRental"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Rental updated successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Rental"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": ["Rental"],
+        "summary": "Delete a rental by ID",
+        "description": "Deletes a rental by their ID.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "Rental ID",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Rental deleted successfully."
+          }
+        }
+      }
     }
   },
   "components": {
@@ -431,6 +571,78 @@
           "status": {
             "type": "string",
             "example": "UNAVAILABLE"
+          }
+        }
+      },
+      "Rental": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "example": "1"
+          },
+          "startDate": {
+            "type": "string",
+            "example": "2022-01-01"
+          },
+          "endDate": {
+            "type": "string",
+            "example": "2022-01-02"
+          },
+          "price": {
+            "type": "number",
+            "example": "250.00"
+          },
+          "carId": {
+            "type": "string",
+            "example": "1"
+          },
+          "userId": {
+            "type": "string",
+            "example": "1"
+          }
+        }
+      },
+      "CreateRental": {
+        "type": "object",
+        "properties": {
+          "startDate": {
+            "type": "string",
+            "example": "2025-01-01"
+          },
+          "endDate": {
+            "type": "string",
+            "example": "2025-01-02"
+          },
+          "carId": {
+            "type": "string",
+            "example": "1"
+          },
+          "userId": {
+            "type": "string",
+            "example": "1"
+          }
+        },
+        "required": ["startDate", "endDate", "carId", "userId"]
+      },
+      "UpdateRental": {
+        "type": "object",
+        "properties": {
+          "startDate": {
+            "type": "string",
+            "example": "2025-02-01"
+          },
+          "endDate": {
+            "type": "string",
+            "example": "2025-02-02"
+          },
+          "carId": {
+            "type": "string",
+            "example": "1"
+          },
+          "userId": {
+            "type": "string",
+            "example": "1"
           }
         }
       }

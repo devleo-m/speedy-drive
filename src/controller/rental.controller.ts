@@ -12,9 +12,9 @@ export namespace RentalController {
             return res.status(201).json(createRental);
         } catch (error) {
             if (error instanceof ZodError) {
-                throw new Error("Validation failed");
+                return res.status(400).json({ message: "Validation failed", errors: error.errors });
             }
-            throw new Error(`Error creating rental: ${error}`);
+            return res.status(400).json({ message: `Error creating rental: ${error}` });
         }
     }
 
@@ -24,9 +24,9 @@ export namespace RentalController {
             return res.status(200).json(listAllRentals);
         } catch (error) {
             if(error instanceof ZodError) {
-                throw new Error("Validation failed");
+                return res.status(400).json({ message: "Validation failed", errors: error.errors });
             }
-            throw new Error(`Error finding rentals: ${error}`);
+            return res.status(400).json({ message: `Error finding rentals: ${error}` });
         }
     }
 
@@ -37,9 +37,9 @@ export namespace RentalController {
             return res.status(200).json(listRentalById);
         } catch (error) {
             if(error instanceof ZodError) {
-                throw new Error("Validation failed");
+                return res.status(400).json({ message: "Validation failed", errors: error.errors });
             }
-            throw new Error(`Error finding rental: ${error}`);
+            return res.status(400).json({ message: `Error finding rental: ${error}` });
         }
     }
 
@@ -51,9 +51,9 @@ export namespace RentalController {
             return res.status(200).json(updateRental);
         } catch (error) {
             if(error instanceof ZodError) {
-                throw new Error("Validation failed");
+                return res.status(400).json({ message: "Validation failed", errors: error.errors });
             }
-            throw new Error(`Error updating rental: ${error}`);
+            return res.status(400).json({ message: `Error updating rental: ${error}` });
         }
     }
 
@@ -64,9 +64,9 @@ export namespace RentalController {
             return res.status(200).json({ message: `Rental deleted successfully`, rental: deleteRental });
         } catch (error) {
             if(error instanceof ZodError) {
-                throw new Error("Validation failed");
+                return res.status(400).json({ message: "Validation failed", errors: error.errors });
             }
-            throw new Error(`Error deleting rental: ${error}`);
+            return res.status(400).json({ message: `Error deleting rental: ${error}` });
         }
     }
 }
