@@ -1,9 +1,9 @@
 import { DataTypes, Model, Sequelize } from "sequelize";
-import { PaymentAttributes, PaymentCreateAttributes } from "../interface/payment.interface";
+import { PaymentAttributes, PaymentCreationAttributes } from "../interface/payment.interface";
 import { sequelize } from "../config/database";
 import Rental from "./rental.model";
 
-class Payment extends Model<PaymentAttributes, PaymentCreateAttributes> implements PaymentAttributes {
+class Payment extends Model<PaymentAttributes, PaymentCreationAttributes> implements PaymentAttributes {
     id!: number;
     method!: "DEBIT" | "CREDIT" | "PIX" | "MONEY";
     status!: "PAID" | "UNPAID";
