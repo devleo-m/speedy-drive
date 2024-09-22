@@ -5,6 +5,7 @@ import rentalRouter from '../routes/rental.router';
 
 import swaggerUi from 'swagger-ui-express';
 import swaggerDocument from '../swagger/swagger.json';
+import paymentRouter from '../routes/payment.router';
 
 
 const app = express();
@@ -17,5 +18,6 @@ app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 app.use("/", userRouter)
 app.use("/", carRouter)
 app.use("/", rentalRouter)
+app.use("/", paymentRouter)
 
 export default app;
