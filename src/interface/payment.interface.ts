@@ -8,4 +8,4 @@ export interface PaymentAttributes {
     rentalId: number
 }
 
-export interface PaymentCreateAttributes extends Optional<PaymentAttributes, 'id' | 'paymentDate'>{}
+export interface PaymentCreationAttributes extends Optional<PaymentAttributes, 'id' | 'paymentDate'>{}
