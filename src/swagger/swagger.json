@@ -2,8 +2,8 @@
   "openapi": "3.0.0",
   "info": {
     "version": "1.0.0",
-    "title": "Titulo - apenas depois....",
-    "description": "descricao - so vou colocar depois.",
+    "title": "Car Rental Management API",
+    "description": "A REST API to manage users, cars, and rental operations. It allows user creation, updating, and deletion, as well as managing car rentals, retrieving available cars, and rental histories.",
     "contact": {
       "name": "Leonardo Madeira",
       "url": "https://github.com/devleo-m"
@@ -116,7 +116,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/CreateUser"
+                "$ref": "#/components/schemas/UpdateUser"
               }
             }
           }
@@ -435,6 +435,146 @@
           }
         }
       }
+    },
+    "/payments":{
+      "get":{
+        "tags":["Payment"],
+        "summary":"Retrieve all payments",
+        "description":"Returns a list of all payments.",
+        "responses":{
+          "200":{
+            "description":"A list of payments.",
+            "content":{
+              "application/json":{
+                "schema":{
+                  "type":"array",
+                  "items":{
+                    "$ref":"#/components/schemas/Payment"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post":{
+        "tags":["Payment"],
+        "summary":"Create a new payment",
+        "description":"Creates a new payment and returns it.",
+        "requestBody":{
+          "description":"Payment object to be created",
+          "required":true,
+          "content":{
+            "application/json":{
+              "schema":{
+                "$ref":"#/components/schemas/CreatePayment"
+              }
+            }
+          }
+        },
+        "responses":{
+          "201":{
+            "description":"Payment created successfully.",
+            "content":{
+              "application/json":{
+                "schema":{
+                  "$ref":"#/components/schemas/Payment"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/payments/{id}":{
+      "get":{
+        "tags":["Payment"],
+        "summary":"Retrieve a payment by ID",
+        "description":"Returns a payment by their ID.",
+        "parameters":[
+          {
+            "name":"id",
+            "in":"path",
+            "required":true,
+            "description":"Payment ID",
+            "schema":{
+              "type":"string"
+            }
+          }
+        ],
+        "responses":{
+          "200":{
+            "description":"A payment object.",
+            "content":{
+              "application/json":{
+                "schema":{
+                  "$ref":"#/components/schemas/Payment"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put":{
+        "tags":["Payment"],
+        "summary":"Update a payment by ID",
+        "description":"Updates a payment's information by their ID.",
+        "parameters":[
+          {
+            "name":"id",
+            "in":"path",
+            "required":true,
+            "description":"Payment ID",
+            "schema":{
+              "type":"string"
+            }
+          }
+        ],
+        "requestBody":{
+          "description":"Updated payment object",
+          "required":true,
+          "content":{
+            "application/json":{
+              "schema":{
+                "$ref":"#/components/schemas/UpdatePayment"
+              }
+            }
+          }
+        },
+        "responses":{
+          "200":{
+            "description":"Payment updated successfully.",
+            "content":{
+              "application/json":{
+                "schema":{
+                  "$ref":"#/components/schemas/Payment"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete":{
+        "tags":["Payment"],
+        "summary":"Delete a payment by ID",
+        "description":"Deletes a payment by their ID.",
+        "parameters":[
+          {
+            "name":"id",
+            "in":"path",
+            "required":true,
+            "description":"Payment ID",
+            "schema":{
+              "type":"string"
+            }
+          }
+        ],
+        "responses":{
+          "200":{
+            "description":"Payment deleted successfully."
+          }
+        }
+      }
     }
   },
   "components": {
@@ -473,6 +613,19 @@
           }
         },
         "required": ["email", "password"]
+      },
+      "UpdateUser": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "example": "John Doe"
+          },
+          "email": {
+            "type": "string",
+            "example": "test@gmail.com"
+          }
+        }
       },
       "Car": {
         "type": "object",
@@ -643,6 +796,70 @@
           "userId": {
             "type": "string",
             "example": "1"
+          }
+        }
+      },
+      "Payment": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "example": "1"
+          },
+          "method": {
+            "type": "string",
+            "example": "string"
+          },
+          "status": {
+            "type": "string",
+            "example": "string"
+          },
+          "paymentDate": {
+            "type": "string",
+            "example": "2025-01-01"
+          },
+          "rentalId": {
+            "type": "string",
+            "example": "1"
+          }
+        }
+      },
+      "CreatePayment": {
+        "type": "object",
+        "properties": {
+          "method": {
+            "type": "string",
+            "example": "DEBIT"
+          },
+          "status": {
+            "type": "string",
+            "example": "PAID"
+          },
+          "paymentDate": {
+            "type": "string",
+            "example": "2025-01-01"
+          },
+          "rentalId": {
+            "type": "string",
+            "example": "1"
+          }
+        },
+        "required": ["rentalId"]
+      },
+      "UpdatePayment": {
+        "type": "object",
+        "properties": {
+          "method": {
+            "type": "string",
+            "example": "MONEY"
+          },
+          "status": {
+            "type": "string",
+            "example": "UNPAID"
+          },
+          "paymentDate": {
+            "type": "string",
+            "example": "2025-02-02"
           }
         }
       }
