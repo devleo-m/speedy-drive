@@ -11,6 +11,10 @@ class CarServiceImpl implements ICarService {
     async findAllCars(): Promise<Car[]> {
         return await carRepository.findAllCars();
     }
+
+    async listAvailableCars(): Promise<Car[]> {
+        return await carRepository.findAllAvailableCars();
+    }
     async findByIdCar(id: number): Promise<Car | null> {
         return await carRepository.findByIdCar(id);
     }
