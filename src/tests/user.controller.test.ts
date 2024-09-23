@@ -8,6 +8,8 @@ const app = express();
 app.use(bodyParser.json());
 app.use('/', userRouter);
 
+const token = "[free:token]";
+
 describe("Teste de rotas de usuários", () => {
 
     let createdUserId: number; 
@@ -18,6 +20,7 @@ describe("Teste de rotas de usuários", () => {
         const email = `fulano${timestamp}@gmail.com`;
         const createResponse = await supertest(app)
             .post("/users")
+            .set('Authorization', `Bearer ${token}`)
             .send({
                 name: "Fulano de Tal",
                 email: email,
@@ -35,6 +38,7 @@ describe("Teste de rotas de usuários", () => {
     test("Listar todos os usuários", async () => {
         const listResponse = await supertest(app)
             .get("/users")
+            .set('Authorization', `Bearer ${token}`)
         
         expect(listResponse.status).toBe(200);
     })
@@ -42,6 +46,7 @@ describe("Teste de rotas de usuários", () => {
     test("Listar usuario por id", async () => {
         const listResponse = await supertest(app)
             .get("/users/1")
+            .set('Authorization', `Bearer ${token}`)
         
         expect(listResponse.status).toBe(200);
     })
@@ -49,6 +54,7 @@ describe("Teste de rotas de usuários", () => {
     test("Atualizar um usuario pelo id", async () => {
         const listResponse = await supertest(app)
             .put(`/users/${createdUserId}`)
+            .set('Authorization', `Bearer ${token}`)
             .send({ 
                 name: `${createdUserName} - Updated/Jest`,
                 email: "update-jest@gmail.com",
@@ -60,7 +66,8 @@ describe("Teste de rotas de usuários", () => {
 
     test("Deletar um usuario pelo id", async () => {
         const listResponse = await supertest(app)
-            .delete(`/users/${createdUserId}`);
+            .delete(`/users/${createdUserId}`)
+            .set('Authorization', `Bearer ${token}`)
         
         expect(listResponse.status).toBe(200);
     })
