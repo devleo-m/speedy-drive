@@ -8,6 +8,8 @@ const app = express();
 app.use(bodyParser.json());
 app.use('/', paymentRouter);
 
+const token = "[free:token]";
+
 describe("Test and routes for payments", () => {
 
     let createdPaymentId: number; 
@@ -15,6 +17,7 @@ describe("Test and routes for payments", () => {
     test("Create a Payment", async () => {
         const createResponse = await supertest(app)
             .post("/payments")
+            .set('Authorization', `Bearer ${token}`)
             .send({
                 method: "CREDIT",
                 rentalId: 2
@@ -28,6 +31,7 @@ describe("Test and routes for payments", () => {
     test("List all Payment", async () => {
         const listResponse = await supertest(app)
             .get("/payments")
+            .set('Authorization', `Bearer ${token}`)
         
         expect(listResponse.status).toBe(200);
     })
@@ -35,7 +39,8 @@ describe("Test and routes for payments", () => {
     test("List a Payment", async () => {
         const listResponse = await supertest(app)
             .get(`/payments/${createdPaymentId}`)
-        
+            .set('Authorization', `Bearer ${token}`)
+
         expect(listResponse.status).toBe(200);
         expect(listResponse.body.status).toBe("UNPAID");
     })
@@ -43,6 +48,7 @@ describe("Test and routes for payments", () => {
     test("Update a Payment", async () => {
         const updateResponse = await supertest(app)
             .put(`/payments/${createdPaymentId}`)
+            .set('Authorization', `Bearer ${token}`)
             .send({ 
                 status: "PAID"
             });
@@ -53,7 +59,8 @@ describe("Test and routes for payments", () => {
 
     test("Delete a Payment", async () => {
         const deleteResponse = await supertest(app)
-            .delete(`/payments/${createdPaymentId}`);
+            .delete(`/payments/${createdPaymentId}`)
+            .set('Authorization', `Bearer ${token}`)
         
         expect(deleteResponse.status).toBe(200);
     })
