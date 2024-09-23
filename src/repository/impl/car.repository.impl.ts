@@ -19,6 +19,16 @@ class CarRepositoy implements ICarRepository {
         }
     }
 
+    async findAllAvailableCars(): Promise<Car[]> {
+        try {
+            return await Car.findAll({
+                where: { status: 'AVAILABLE' },
+            });
+        } catch (error) {
+            throw new Error(`Failed to retrieve available cars: ${error}`);
+        }
+    }
+
     async findByIdCar(id: number): Promise<Car | null> {
         try {
             return await Car.findByPk(id);

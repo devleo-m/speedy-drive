@@ -27,6 +27,15 @@ export namespace CarController {
         }
     }
 
+    export const listAvailableCars = async (req: Request, res: Response): Promise<Response> => {
+        try {
+            const carsAvailable = await carServiceImpl.listAvailableCars();
+            return res.status(200).json(carsAvailable);
+        } catch (error) {
+            return res.status(500).json({ message: `Error listing available cars: ${error}` });
+        }
+    }
+
     export const findByIdCar = async (req: Request, res: Response): Promise<Response> => {
         try {
             const idParam = IdSchema.parse(req.params).id;

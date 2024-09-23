@@ -76,6 +76,29 @@
         }
       }
     },
+    "/client/available": {
+      "get": {
+        "tags": ["Cliente"],
+        "security": [{ "bearerAuth": [] }],
+        "summary": "Retrieve all available cars",
+        "description": "Returns a list of all available cars.",
+        "responses": {
+          "200": {
+            "description": "A list of available cars.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Car"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/users": {
       "get": {
         "tags": ["User"],
@@ -693,7 +716,7 @@
           },
           "password": {
             "type": "string",
-            "example": "rootroot"
+            "example": "root"
           }
         },
         "required": ["name", "email", "password"]
