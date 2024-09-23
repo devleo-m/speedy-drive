@@ -47,6 +47,11 @@ describe("CarRepository Tests", () => {
         expect(Array.isArray(cars)).toBe(true);        
     });
 
+    test("Should list all cars", async () => {
+        const carsAvailable = await carRepository.findAllAvailableCars();
+        expect(Array.isArray(carsAvailable)).toBe(true);
+    });
+
     test("Should find a car", async () => {
         const user = await carRepository.findByIdCar(createdCarId);
         expect(user).not.toBeNull();
