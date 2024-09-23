@@ -16,9 +16,70 @@
     }
   ],
   "paths": {
+    "/auth/login":{
+      "post":{
+        "tags":["Auth"],
+        "summary":"Login",
+        "description":"Login with email and password.",
+        "requestBody":{
+          "description":"Login object",
+          "required":true,
+          "content":{
+            "application/json":{
+              "schema":{
+                "$ref":"#/components/schemas/AuthLogin"
+              }
+            }
+          }
+        },
+        "responses":{
+          "200":{
+            "description":"Login successful.",
+            "content":{
+              "application/json":{
+                "schema":{
+                  "$ref":"#/components/schemas/AuthLogin"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/auth/register":{
+      "post":{
+        "tags":["Auth"],
+        "summary":"Register",
+        "description":"Register with email and password.",
+        "requestBody":{
+          "description":"Register object",
+          "required":true,
+          "content":{
+            "application/json":{
+              "schema":{
+                "$ref":"#/components/schemas/AuthRegister"
+              }
+            }
+          }
+        },
+        "responses":{
+          "200":{
+            "description":"Register successful.",
+            "content":{
+              "application/json":{
+                "schema":{
+                  "$ref":"#/components/schemas/AuthRegister"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/users": {
       "get": {
         "tags": ["User"],
+        "security": [{ "bearerAuth": [] }],
         "summary": "Retrieve all users",
         "description": "Returns a list of all users.",
         "responses": {
@@ -39,6 +100,7 @@
       },
       "post": {
         "tags": ["User"],
+        "security": [{ "bearerAuth": [] }],
         "summary": "Create a new user",
         "description": "Creates a new user and returns it.",
         "requestBody": {
@@ -69,6 +131,7 @@
     "/users/{id}": {
       "get": {
         "tags": ["User"],
+        "security": [{ "bearerAuth": [] }],
         "summary": "Retrieve a user by ID",
         "description": "Returns a user by their ID.",
         "parameters": [
@@ -97,6 +160,7 @@
       },
       "put": {
         "tags": ["User"],
+        "security": [{ "bearerAuth": [] }],
         "summary": "Update a user by ID",
         "description": "Updates a user's information by their ID.",
         "parameters": [
@@ -136,6 +200,7 @@
       },
       "delete": {
         "tags": ["User"],
+        "security": [{ "bearerAuth": [] }],
         "summary": "Delete a user by ID",
         "description": "Deletes a user by their ID.",
         "parameters": [
@@ -159,6 +224,7 @@
     "/cars": {
       "get": {
         "tags": ["Car"],
+        "security": [{ "bearerAuth": [] }],
         "summary": "Retrieve all cars",
         "description": "Returns a list of all cars.",
         "responses": {
@@ -179,6 +245,7 @@
       },
       "post": {
         "tags": ["Car"],
+        "security": [{ "bearerAuth": [] }],
         "summary": "Create a new car",
         "description": "Creates a new car and returns it.",
         "requestBody": {
@@ -209,6 +276,7 @@
     "/cars/{id}": {
       "get": {
         "tags": ["Car"],
+        "security": [{ "bearerAuth": [] }],
         "summary": "Retrieve a car by ID",
         "description": "Returns a car by their ID.",
         "parameters": [
@@ -237,6 +305,7 @@
       },
       "put": {
         "tags": ["Car"],
+        "security": [{ "bearerAuth": [] }],
         "summary": "Update a car by ID",
         "description": "Updates a car's information by their ID.",
         "parameters": [
@@ -276,6 +345,7 @@
       },
       "delete": {
         "tags": ["Car"],
+        "security": [{ "bearerAuth": [] }],
         "summary": "Delete a car by ID",
         "description": "Deletes a car by their ID.",
         "parameters": [
@@ -299,6 +369,7 @@
     "/rentals": {
       "get": {
         "tags": ["Rental"],
+        "security": [{ "bearerAuth": [] }],
         "summary": "Retrieve all rentals",
         "description": "Returns a list of all rentals.",
         "responses": {
@@ -319,6 +390,7 @@
       },
       "post": {
         "tags": ["Rental"],
+        "security": [{ "bearerAuth": [] }],
         "summary": "Create a new rental",
         "description": "Creates a new rental and returns it.",
         "requestBody": {
@@ -349,6 +421,7 @@
     "/rentals/{id}": {
       "get": {
         "tags": ["Rental"],
+        "security": [{ "bearerAuth": [] }],
         "summary": "Retrieve a rental by ID",
         "description": "Returns a rental by their ID.",
         "parameters": [
@@ -377,6 +450,7 @@
       },
       "put": {
         "tags": ["Rental"],
+        "security": [{ "bearerAuth": [] }],
         "summary": "Update a rental by ID",
         "description": "Updates a rental's information by their ID.",
         "parameters": [
@@ -416,6 +490,7 @@
       },
       "delete": {
         "tags": ["Rental"],
+        "security": [{ "bearerAuth": [] }],
         "summary": "Delete a rental by ID",
         "description": "Deletes a rental by their ID.",
         "parameters": [
@@ -439,6 +514,7 @@
     "/payments":{
       "get":{
         "tags":["Payment"],
+        "security": [{ "bearerAuth": [] }],
         "summary":"Retrieve all payments",
         "description":"Returns a list of all payments.",
         "responses":{
@@ -459,6 +535,7 @@
       },
       "post":{
         "tags":["Payment"],
+        "security": [{ "bearerAuth": [] }],
         "summary":"Create a new payment",
         "description":"Creates a new payment and returns it.",
         "requestBody":{
@@ -489,6 +566,7 @@
     "/payments/{id}":{
       "get":{
         "tags":["Payment"],
+        "security": [{ "bearerAuth": [] }],
         "summary":"Retrieve a payment by ID",
         "description":"Returns a payment by their ID.",
         "parameters":[
@@ -517,6 +595,7 @@
       },
       "put":{
         "tags":["Payment"],
+        "security": [{ "bearerAuth": [] }],
         "summary":"Update a payment by ID",
         "description":"Updates a payment's information by their ID.",
         "parameters":[
@@ -556,6 +635,7 @@
       },
       "delete":{
         "tags":["Payment"],
+        "security": [{ "bearerAuth": [] }],
         "summary":"Delete a payment by ID",
         "description":"Deletes a payment by their ID.",
         "parameters":[
@@ -578,7 +658,46 @@
     }
   },
   "components": {
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    },
     "schemas": {
+      "AuthLogin":{
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string",
+            "example": "admin@gmail.com"
+          },
+          "password": {
+            "type": "string",
+            "example": "root"
+          }
+        },
+        "required": ["email", "password"]
+      },
+      "AuthRegister": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "example": "Fulano de tal"
+          },
+          "email": {
+            "type": "string",
+            "example": "fulano@gmail.com"
+          },
+          "password": {
+            "type": "string",
+            "example": "rootroot"
+          }
+        },
+        "required": ["name", "email", "password"]
+      },
       "User": {
         "type": "object",
         "properties": {
