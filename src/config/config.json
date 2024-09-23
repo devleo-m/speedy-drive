@@ -1,0 +1,10 @@
+{
+  "development": {
+    "username": "root",
+    "password": "root",
+    "database": "db-speedy-drive",
+    "host": "localhost",
+    "dialect": "postgres",
+    "port": 5436
+  }
+}

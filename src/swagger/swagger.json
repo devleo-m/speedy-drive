@@ -1,0 +1,1010 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "version": "1.0.0",
+    "title": "Car Rental Management API",
+    "description": "A REST API to manage users, cars, and rental operations. It allows user creation, updating, and deletion, as well as managing car rentals, retrieving available cars, and rental histories.",
+    "contact": {
+      "name": "Leonardo Madeira",
+      "url": "https://github.com/devleo-m"
+    }
+  },
+  "servers": [
+    {
+      "url": "http://localhost:3000",
+      "description": "Local server"
+    }
+  ],
+  "paths": {
+    "/auth/login":{
+      "post":{
+        "tags":["Auth"],
+        "summary":"Login",
+        "description":"Login with email and password.",
+        "requestBody":{
+          "description":"Login object",
+          "required":true,
+          "content":{
+            "application/json":{
+              "schema":{
+                "$ref":"#/components/schemas/AuthLogin"
+              }
+            }
+          }
+        },
+        "responses":{
+          "200":{
+            "description":"Login successful.",
+            "content":{
+              "application/json":{
+                "schema":{
+                  "$ref":"#/components/schemas/AuthLogin"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/auth/register":{
+      "post":{
+        "tags":["Auth"],
+        "summary":"Register",
+        "description":"Register with email and password.",
+        "requestBody":{
+          "description":"Register object",
+          "required":true,
+          "content":{
+            "application/json":{
+              "schema":{
+                "$ref":"#/components/schemas/AuthRegister"
+              }
+            }
+          }
+        },
+        "responses":{
+          "200":{
+            "description":"Register successful.",
+            "content":{
+              "application/json":{
+                "schema":{
+                  "$ref":"#/components/schemas/AuthRegister"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/client/available": {
+      "get": {
+        "tags": ["Cliente"],
+        "security": [{ "bearerAuth": [] }],
+        "summary": "Retrieve all available cars",
+        "description": "Returns a list of all available cars.",
+        "responses": {
+          "200": {
+            "description": "A list of available cars.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Car"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/users": {
+      "get": {
+        "tags": ["User"],
+        "security": [{ "bearerAuth": [] }],
+        "summary": "Retrieve all users",
+        "description": "Returns a list of all users.",
+        "responses": {
+          "200": {
+            "description": "A list of users.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/User"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": ["User"],
+        "security": [{ "bearerAuth": [] }],
+        "summary": "Create a new user",
+        "description": "Creates a new user and returns it.",
+        "requestBody": {
+          "description": "User object to be created",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateUser"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "User created successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/User"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/users/{id}": {
+      "get": {
+        "tags": ["User"],
+        "security": [{ "bearerAuth": [] }],
+        "summary": "Retrieve a user by ID",
+        "description": "Returns a user by their ID.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "User ID",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A user object.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/User"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": ["User"],
+        "security": [{ "bearerAuth": [] }],
+        "summary": "Update a user by ID",
+        "description": "Updates a user's information by their ID.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "User ID",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Updated user object",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateUser"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "User updated successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/User"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": ["User"],
+        "security": [{ "bearerAuth": [] }],
+        "summary": "Delete a user by ID",
+        "description": "Deletes a user by their ID.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "User ID",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User deleted successfully."
+          }
+        }
+      }
+    },
+    "/cars": {
+      "get": {
+        "tags": ["Car"],
+        "security": [{ "bearerAuth": [] }],
+        "summary": "Retrieve all cars",
+        "description": "Returns a list of all cars.",
+        "responses": {
+          "200": {
+            "description": "A list of cars.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Car"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": ["Car"],
+        "security": [{ "bearerAuth": [] }],
+        "summary": "Create a new car",
+        "description": "Creates a new car and returns it.",
+        "requestBody": {
+          "description": "Car object to be created",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateCar"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Car created successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Car"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/cars/{id}": {
+      "get": {
+        "tags": ["Car"],
+        "security": [{ "bearerAuth": [] }],
+        "summary": "Retrieve a car by ID",
+        "description": "Returns a car by their ID.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "Car ID",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A car object.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Car"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": ["Car"],
+        "security": [{ "bearerAuth": [] }],
+        "summary": "Update a car by ID",
+        "description": "Updates a car's information by their ID.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "Car ID",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Updated car object",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateCar"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Car updated successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Car"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": ["Car"],
+        "security": [{ "bearerAuth": [] }],
+        "summary": "Delete a car by ID",
+        "description": "Deletes a car by their ID.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "Car ID",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Car deleted successfully."
+          }
+        }
+      }
+    },
+    "/rentals": {
+      "get": {
+        "tags": ["Rental"],
+        "security": [{ "bearerAuth": [] }],
+        "summary": "Retrieve all rentals",
+        "description": "Returns a list of all rentals.",
+        "responses": {
+          "200": {
+            "description": "A list of rentals.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Rental"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": ["Rental"],
+        "security": [{ "bearerAuth": [] }],
+        "summary": "Create a new rental",
+        "description": "Creates a new rental and returns it.",
+        "requestBody": {
+          "description": "Rental object to be created",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateRental"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Rental created successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Rental"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/rentals/{id}": {
+      "get": {
+        "tags": ["Rental"],
+        "security": [{ "bearerAuth": [] }],
+        "summary": "Retrieve a rental by ID",
+        "description": "Returns a rental by their ID.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "Rental ID",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A rental object.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Rental"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": ["Rental"],
+        "security": [{ "bearerAuth": [] }],
+        "summary": "Update a rental by ID",
+        "description": "Updates a rental's information by their ID.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "Rental ID",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Updated rental object",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateRental"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Rental updated successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Rental"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": ["Rental"],
+        "security": [{ "bearerAuth": [] }],
+        "summary": "Delete a rental by ID",
+        "description": "Deletes a rental by their ID.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "Rental ID",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Rental deleted successfully."
+          }
+        }
+      }
+    },
+    "/payments":{
+      "get":{
+        "tags":["Payment"],
+        "security": [{ "bearerAuth": [] }],
+        "summary":"Retrieve all payments",
+        "description":"Returns a list of all payments.",
+        "responses":{
+          "200":{
+            "description":"A list of payments.",
+            "content":{
+              "application/json":{
+                "schema":{
+                  "type":"array",
+                  "items":{
+                    "$ref":"#/components/schemas/Payment"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post":{
+        "tags":["Payment"],
+        "security": [{ "bearerAuth": [] }],
+        "summary":"Create a new payment",
+        "description":"Creates a new payment and returns it.",
+        "requestBody":{
+          "description":"Payment object to be created",
+          "required":true,
+          "content":{
+            "application/json":{
+              "schema":{
+                "$ref":"#/components/schemas/CreatePayment"
+              }
+            }
+          }
+        },
+        "responses":{
+          "201":{
+            "description":"Payment created successfully.",
+            "content":{
+              "application/json":{
+                "schema":{
+                  "$ref":"#/components/schemas/Payment"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/payments/{id}":{
+      "get":{
+        "tags":["Payment"],
+        "security": [{ "bearerAuth": [] }],
+        "summary":"Retrieve a payment by ID",
+        "description":"Returns a payment by their ID.",
+        "parameters":[
+          {
+            "name":"id",
+            "in":"path",
+            "required":true,
+            "description":"Payment ID",
+            "schema":{
+              "type":"string"
+            }
+          }
+        ],
+        "responses":{
+          "200":{
+            "description":"A payment object.",
+            "content":{
+              "application/json":{
+                "schema":{
+                  "$ref":"#/components/schemas/Payment"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put":{
+        "tags":["Payment"],
+        "security": [{ "bearerAuth": [] }],
+        "summary":"Update a payment by ID",
+        "description":"Updates a payment's information by their ID.",
+        "parameters":[
+          {
+            "name":"id",
+            "in":"path",
+            "required":true,
+            "description":"Payment ID",
+            "schema":{
+              "type":"string"
+            }
+          }
+        ],
+        "requestBody":{
+          "description":"Updated payment object",
+          "required":true,
+          "content":{
+            "application/json":{
+              "schema":{
+                "$ref":"#/components/schemas/UpdatePayment"
+              }
+            }
+          }
+        },
+        "responses":{
+          "200":{
+            "description":"Payment updated successfully.",
+            "content":{
+              "application/json":{
+                "schema":{
+                  "$ref":"#/components/schemas/Payment"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete":{
+        "tags":["Payment"],
+        "security": [{ "bearerAuth": [] }],
+        "summary":"Delete a payment by ID",
+        "description":"Deletes a payment by their ID.",
+        "parameters":[
+          {
+            "name":"id",
+            "in":"path",
+            "required":true,
+            "description":"Payment ID",
+            "schema":{
+              "type":"string"
+            }
+          }
+        ],
+        "responses":{
+          "200":{
+            "description":"Payment deleted successfully."
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    },
+    "schemas": {
+      "AuthLogin":{
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string",
+            "example": "admin@gmail.com"
+          },
+          "password": {
+            "type": "string",
+            "example": "root"
+          }
+        },
+        "required": ["email", "password"]
+      },
+      "AuthRegister": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "example": "Fulano de tal"
+          },
+          "email": {
+            "type": "string",
+            "example": "fulano@gmail.com"
+          },
+          "password": {
+            "type": "string",
+            "example": "root"
+          }
+        },
+        "required": ["name", "email", "password"]
+      },
+      "User": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "example": "1"
+          },
+          "name": {
+            "type": "string",
+            "example": "John Doe"
+          },
+          "email": {
+            "type": "string",
+            "example": "test@gmail.com"
+          }
+        }
+      },
+      "CreateUser": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "example": "John Doe"
+          },
+          "email": {
+            "type": "string",
+            "example": "test@gmail.com"
+          },
+          "password": {
+            "type": "string",
+            "example": "rootroot"
+          }
+        },
+        "required": ["email", "password"]
+      },
+      "UpdateUser": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "example": "John Doe"
+          },
+          "email": {
+            "type": "string",
+            "example": "test@gmail.com"
+          }
+        }
+      },
+      "Car": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "example": "1"
+          },
+          "model": {
+            "type": "string",
+            "example": "string"
+          },
+          "brand": {
+            "type": "string",
+            "example": "string"
+          },
+          "color": {
+            "type": "string",
+            "example": "string"
+          },
+          "year": {
+            "type": "integer",
+            "example": "number"
+          },
+          "plate": {
+            "type": "string",
+            "example": "string"
+          },
+          "dailyRate": {
+            "type": "number",
+            "example": "number"
+          },
+          "status": {
+            "type": "string",
+            "example": "string"
+          }
+        }
+      },
+      "CreateCar": {
+        "type": "object",
+        "properties": {
+          "model": {
+            "type": "string",
+            "example": "Mustang"
+          },
+          "brand": {
+            "type": "string",
+            "example": "Ford"
+          },
+          "color": {
+            "type": "string",
+            "example": "Red"
+          },
+          "year": {
+            "type": "integer",
+            "example": "2022"
+          },
+          "plate": {
+            "type": "string",
+            "example": "ZKD-1234"
+          },
+          "dailyRate": {
+            "type": "number",
+            "example": "250.00"
+          },
+          "required": ["model", "brand", "color", "year", "plate", "dailyRate"]
+        }
+      },
+      "UpdateCar": {
+        "type": "object",
+        "properties": {
+          "model": {
+            "type": "string",
+            "example": "Mustang"
+          },
+          "brand": {
+            "type": "string",
+            "example": "Ford"
+          },
+          "color": {
+            "type": "string",
+            "example": "Red"
+          },
+          "year": {
+            "type": "integer",
+            "example": "2022"
+          },
+          "plate": {
+            "type": "string",
+            "example": "ZKD-1234"
+          },
+          "dailyRate": {
+            "type": "number",
+            "example": "290.00"
+          },
+          "status": {
+            "type": "string",
+            "example": "UNAVAILABLE"
+          }
+        }
+      },
+      "Rental": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "example": "1"
+          },
+          "startDate": {
+            "type": "string",
+            "example": "2022-01-01"
+          },
+          "endDate": {
+            "type": "string",
+            "example": "2022-01-02"
+          },
+          "price": {
+            "type": "number",
+            "example": "250.00"
+          },
+          "carId": {
+            "type": "string",
+            "example": "1"
+          },
+          "userId": {
+            "type": "string",
+            "example": "1"
+          }
+        }
+      },
+      "CreateRental": {
+        "type": "object",
+        "properties": {
+          "startDate": {
+            "type": "string",
+            "example": "2025-01-01"
+          },
+          "endDate": {
+            "type": "string",
+            "example": "2025-01-02"
+          },
+          "carId": {
+            "type": "string",
+            "example": "1"
+          },
+          "userId": {
+            "type": "string",
+            "example": "1"
+          }
+        },
+        "required": ["startDate", "endDate", "carId", "userId"]
+      },
+      "UpdateRental": {
+        "type": "object",
+        "properties": {
+          "startDate": {
+            "type": "string",
+            "example": "2025-02-01"
+          },
+          "endDate": {
+            "type": "string",
+            "example": "2025-02-02"
+          },
+          "carId": {
+            "type": "string",
+            "example": "1"
+          },
+          "userId": {
+            "type": "string",
+            "example": "1"
+          }
+        }
+      },
+      "Payment": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "example": "1"
+          },
+          "method": {
+            "type": "string",
+            "example": "string"
+          },
+          "status": {
+            "type": "string",
+            "example": "string"
+          },
+          "paymentDate": {
+            "type": "string",
+            "example": "2025-01-01"
+          },
+          "rentalId": {
+            "type": "string",
+            "example": "1"
+          }
+        }
+      },
+      "CreatePayment": {
+        "type": "object",
+        "properties": {
+          "method": {
+            "type": "string",
+            "example": "DEBIT"
+          },
+          "status": {
+            "type": "string",
+            "example": "PAID"
+          },
+          "paymentDate": {
+            "type": "string",
+            "example": "2025-01-01"
+          },
+          "rentalId": {
+            "type": "string",
+            "example": "1"
+          }
+        },
+        "required": ["rentalId"]
+      },
+      "UpdatePayment": {
+        "type": "object",
+        "properties": {
+          "method": {
+            "type": "string",
+            "example": "MONEY"
+          },
+          "status": {
+            "type": "string",
+            "example": "UNPAID"
+          },
+          "paymentDate": {
+            "type": "string",
+            "example": "2025-02-02"
+          }
+        }
+      }
+    }
+  }
+}
