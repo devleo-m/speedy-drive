@@ -2,6 +2,7 @@ import express from 'express';
 import userRouter from '../routes/user.router';
 import carRouter from '../routes/car.router';
 import rentalRouter from '../routes/rental.router';
+import authRouter from '../routes/auth.router';
 
 import swaggerUi from 'swagger-ui-express';
 import swaggerDocument from '../swagger/swagger.json';
@@ -15,6 +16,7 @@ app.use(express.json());
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 //Routes
+app.use("/auth", authRouter)
 app.use("/", userRouter)
 app.use("/", carRouter)
 app.use("/", rentalRouter)

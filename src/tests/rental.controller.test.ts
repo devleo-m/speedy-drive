@@ -1,67 +1,69 @@
 import supertest from "supertest";
 import express from 'express';
 import bodyParser from 'body-parser';
-import paymentRouter from '../routes/payment.router';
+import rentalRouter from '../routes/rental.router';
 
 const app = express();
 
 app.use(bodyParser.json());
-app.use('/', paymentRouter);
+app.use('/', rentalRouter);
 
 const token = "[free:token]";
 
-describe("Test and routes for payments", () => {
+describe("Test and routes for rentals", () => {
 
-    let createdPaymentId: number; 
+    let createdRentalId: number; 
 
-    test("Create a Payment", async () => {
+    test("Create a Rental", async () => {
         const createResponse = await supertest(app)
-            .post("/payments")
+            .post("/rentals")
             .set('Authorization', `Bearer ${token}`)
             .send({
-                method: "CREDIT",
-                rentalId: 2
+                startDate: new Date(2025, 2, 1),
+                endDate: new Date(2025, 2, 10),
+                price: 2300.43,
+                userId: 1,
+                carId: 1
             });
 
         expect(createResponse.status).toBe(201);
-
-        createdPaymentId = createResponse.body.id;
+        createdRentalId = createResponse.body.id;
     });
 
-    test("List all Payment", async () => {
+    test("List all Rentals", async () => {
         const listResponse = await supertest(app)
-            .get("/payments")
+            .get("/rentals")
             .set('Authorization', `Bearer ${token}`)
         
         expect(listResponse.status).toBe(200);
-    })
+    });
 
-    test("List a Payment", async () => {
+    test("List a Rental", async () => {
         const listResponse = await supertest(app)
-            .get(`/payments/${createdPaymentId}`)
+            .get(`/rentals/${createdRentalId}`)
             .set('Authorization', `Bearer ${token}`)
 
         expect(listResponse.status).toBe(200);
-        expect(listResponse.body.status).toBe("UNPAID");
-    })
+        expect(listResponse.body).toHaveProperty('id', createdRentalId);
+    });
 
-    test("Update a Payment", async () => {
+    test("Update a Rental", async () => {
         const updateResponse = await supertest(app)
-            .put(`/payments/${createdPaymentId}`)
+            .put(`/rentals/${createdRentalId}`)
             .set('Authorization', `Bearer ${token}`)
             .send({ 
-                status: "PAID"
+                carId: 2
             });
 
         expect(updateResponse.status).toBe(200);
-        expect(updateResponse.body.status).toBe("PAID");
-    })
+        expect(updateResponse.body.carId).toBe(2);
+    });
 
-    test("Delete a Payment", async () => {
+    test("Delete a Rental", async () => {
         const deleteResponse = await supertest(app)
-            .delete(`/payments/${createdPaymentId}`)
+            .delete(`/rentals/${createdRentalId}`)
             .set('Authorization', `Bearer ${token}`)
         
         expect(deleteResponse.status).toBe(200);
-    })
+    });
 });

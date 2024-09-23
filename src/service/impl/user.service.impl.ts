@@ -15,10 +15,8 @@ class UserServiceImpl implements IUserService{
 
         // Make sure the role is valid
         if (user.role !== "ADMIN" && user.role !== "CLIENT") {
-            throw new Error("Role inválida");
+            throw new Error("Invalid role");
         }
-
-        user.role = "CLIENT";
 
         // Using bcrypt to Encrypt password before saving
         const hashedPassword = await bcrypt.hash(user.password, 10);

@@ -8,6 +8,8 @@ const app = express();
 app.use(bodyParser.json());
 app.use('/', carRouter);
 
+const token = "[free:token]";
+
 describe("Test and routes for cars", () => {
 
     let createdCarId: number; 
@@ -18,6 +20,7 @@ describe("Test and routes for cars", () => {
         const model = `Prisma${timestamp}`;
         const createResponse = await supertest(app)
             .post("/cars")
+            .set('Authorization', `Bearer ${token}`)
             .send({
                 model: model,
                 brand: "Jest - Brand",
@@ -37,6 +40,7 @@ describe("Test and routes for cars", () => {
     test("List all cars", async () => {
         const listResponse = await supertest(app)
             .get("/cars")
+            .set('Authorization', `Bearer ${token}`)
         
         expect(listResponse.status).toBe(200);
     })
@@ -44,6 +48,7 @@ describe("Test and routes for cars", () => {
     test("List a car", async () => {
         const listResponse = await supertest(app)
             .get(`/cars/${createdCarId}`)
+            .set('Authorization', `Bearer ${token}`)
         
         expect(listResponse.status).toBe(200);
         expect(listResponse.body.model).toBe(createdCarModel);
@@ -52,6 +57,7 @@ describe("Test and routes for cars", () => {
     test("Atualizar um usuario pelo id", async () => {
         const updateResponse = await supertest(app)
             .put(`/cars/${createdCarId}`)
+            .set('Authorization', `Bearer ${token}`)
             .send({ 
                 status: "UNAVAILABLE"
             });
@@ -63,7 +69,9 @@ describe("Test and routes for cars", () => {
 
     test("Deletar um usuario pelo id", async () => {
         const deleteResponse = await supertest(app)
-            .delete(`/cars/${createdCarId}`);
+            .delete(`/cars/${createdCarId}`)
+            .set('Authorization', `Bearer ${token}`)
+
         
         expect(deleteResponse.status).toBe(200);
 
