@@ -78,7 +78,7 @@
     },
     "/client/available": {
       "get": {
-        "tags": ["Cliente"],
+        "tags": ["Client"],
         "security": [{ "bearerAuth": [] }],
         "summary": "Retrieve all available cars",
         "description": "Returns a list of all available cars.",
@@ -706,10 +706,6 @@
       "AuthRegister": {
         "type": "object",
         "properties": {
-          "name": {
-            "type": "string",
-            "example": "Fulano de tal"
-          },
           "email": {
             "type": "string",
             "example": "fulano@gmail.com"
